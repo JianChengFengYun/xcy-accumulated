@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> 
+<link rel="stylesheet" href="css/style.css">
+<script src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+<script src="js/plupload/plupload.full.min.js"></script>
+</head>
+<body>
+<div class="fixed_big"><em>图片上传中.........</em></div>
+<div class="picupload picupload1">
+	<ul>
+        <li class="twenty">
+			<img src="http://s3.ifengimg.com/2016/05/12/7068157c7d46564c69c8a331e7cfdcc1.jpg"/>
+		</li>
+		<li class="tj" id="container1"><div id="pickfiles1" class="pickfiles">上传1</div></li>
+	</ul>
+</div>
+<div class="picupload picupload2">
+	<ul>
+        <li class="twenty">
+			<img src="http://s3.ifengimg.com/2016/05/12/7068157c7d46564c69c8a331e7cfdcc1.jpg"/>
+		</li>
+		<li class="tj" id="container2"><div id="pickfiles2" class="pickfiles">上传2</div></li>
+	</ul>
+</div>
+<script>
+$(document).ready(function(){
+	//上传图片
+	var pickfiles = $(".pickfiles").length;
+	var uploader = [];
+	for(var j = 1;j <= pickfiles;j++){
+		uploader[j] = new plupload.Uploader({
+			runtimes : 'html5,flash,silverlight,html4',
+			browse_button : 'pickfiles' + j +'',//绑定id
+			container: document.getElementById('container' + j),
+			url : 'http://open.house.ifeng.com/admin/file/upload',//上传地址
+			/*dataType:"jsonp",
+			data:params,
+			jsonp:"_cb",*/
+//			async:true,
+			flash_swf_url : "/js/plupload/Moxie.swf",
+			silverlight_xap_url :"/js/plupload/Moxie.xap",
+			uplength:null,
+			filters : {
+				max_file_size : '2mb',
+				prevent_duplicates : false,
+				mime_types: [
+					{title : "Image files", extensions : "jpg,png,jpeg"},
+				]
+			},
+			init: {
+				FilesAdded: function(up, files) {
+					$(".fixed_big").css("display","block");
+					for(var i=0;i<files.length;i++){
+						if(files[i].origSize < 10000){//限制大小
+							console.log("上传图片不能小于10kb,请调整后重新上传!");
+							up.removeFile(files[i]);
+						};
+					}
+					plupload.each(files, function(file) {});//初始化执行
+					this.start();//执行
+				},
+				FileUploaded: function (up, file, info) {//成功一个创建预览
+					var fileslength = up.files.length;
+					if (info.response != null) {
+						var j = $(this.settings.container).attr("id").substr(9,1);
+						var twenty = $(".twenty"+j).length;
+						if(twenty > 19){
+							console.log("上传图片数不得超过20张。");
+							return false
+						}else{
+							var jsonstr = eval("(" + info.response + ")");
+							var data = jsonstr.data;
+							if (jsonstr && jsonstr.errno == "0") {
+								var imgurl=data.file;
+								var msg = "<li class='twenty twenty"+ j +"' ><img src='"+imgurl+"' /></li>";
+								$(".picupload"+ j +">ul>li:last-child").before(msg);
+							}
+						}
+					}
+				},
+				UploadComplete:function(up, file){
+					$(".fixed_big").css("display","none");
+				},
+				Error: function(up, err) {
+					console.log("您上传的图片含有类型错误图片，请查证后重新上传!");
+					$(".fixed_big").css("display","none");
+				}
+			}
+		});
+		uploader[j].init();
+	}
+})
+</script>
+</body>
+</html>
