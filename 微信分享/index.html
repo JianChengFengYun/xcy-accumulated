@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>无标题文档</title>
+	</head>
+
+	<body>
+		<!--分享转发-->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script>
+			var shareWXData;
+			var peopleWXConfig;
+			shareWXData = function() {
+				peopleWXConfig.debug = true; //关闭调试模式
+				peopleWXConfig.jsApiList = [
+					'checkJsApi',
+					'onMenuShareTimeline',
+					'onMenuShareAppMessage',
+					'onMenuShareQQ',
+					'onMenuShareWeibo'
+				];
+				wx.config(peopleWXConfig);
+				wx.ready(function() {
+					wx.onMenuShareTimeline({ //分享到朋友圈
+						title: wxData.title, // 分享标题
+						link: wxData.link, // 分享链接
+						imgUrl: wxData.imgUrl, // 分享图标
+						success: function() {
+							// 用户确认分享后执行的回调函数
+							//alert(wxData.link + "|" + wxData.imgUrl);
+						},
+						cancel: function() {
+							// 用户取消分享后执行的回调函数
+						}
+					});
+					wx.onMenuShareAppMessage({ //分享给朋友
+						title: wxData.title, // 分享标题
+						link: wxData.link, // 分享链接
+						imgUrl: wxData.imgUrl, // 分享图标
+						desc: wxData.desc, // 分享描述
+						type: '', // 分享类型,music、video或link，不填默认为link
+						dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						success: function() {
+							// 用户确认分享后执行的回调函数
+							// alert(wxData.link + "|" + wxData.imgUrl);
+						},
+						cancel: function() {
+							// 用户取消分享后执行的回调函数
+						}
+					});
+					wx.onMenuShareQQ({ //分享到QQ
+						title: wxData.title, // 分享标题
+						link: wxData.link, // 分享链接
+						imgUrl: wxData.imgUrl, // 分享图标
+						desc: wxData.desc, // 分享描述
+						success: function() {
+							// 用户确认分享后执行的回调函数
+						},
+						cancel: function() {
+							// 用户取消分享后执行的回调函数
+						}
+					});
+					wx.onMenuShareWeibo({ //分享到腾讯微博
+						title: wxData.title, // 分享标题
+						link: wxData.link, // 分享链接
+						imgUrl: wxData.imgUrl, // 分享图标
+						desc: wxData.desc, // 分享描述
+						success: function() {
+							// 用户确认分享后执行的回调函数
+						},
+						cancel: function() {
+							// 用户取消分享后执行的回调函数
+						}
+					});
+				});
+				wx.error(function(res) {
+					//alert('验证出错:' + JSON.stringify(res))
+					// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+				});
+			};
+			
+			
+			/*//jsonp 提交數據
+			 importJs({
+			 	url:"http://....com/weixin/config/info",//必填
+			 	data:{},//提交数据
+			 	cbName:"",//非必填，默认"cb"
+			 	success:function(){},//提交成功回调函数
+			 	timeout：100,//超时时间
+			 	error：function(){}//超时调用函数
+			 	}
+			 });
+			  */
+			function importJs(options) {
+				options = options || {};
+				if (!options.url) {
+					return;
+				}
+				options.data = options.data || {};
+				options.cbName = options.cbName || "_cb";
+				options.timeout = options.timeout || 0;
+				var arr = [];
+				var fnName = "jsonp_" + Math.random();
+				fnName = fnName.replace(".", "");
+				options.data[options.cbName] = fnName;
+				for (var i in options.data) {
+					arr.push(i + "=" + encodeURIComponent(options.data[i]));
+				}
+				var str = arr.join("&");
+				window[fnName] = function(json) {
+					options.success && options.success(json);
+					
+					oHead.removeChild(oS);
+					window[fnName]=null;
+					clearTimeout(timer);
+				}
+				var oS = document.createElement("script");
+				oS.src = options.url + "?" + str;
+				var oHead = document.getElementsByTagName("head")[0];
+				oHead.appendChild(oS);
+				
+				if(options.timeout){
+					var timer=setTimeout(function(){
+						window[fnName] = function(){};
+						options.error && options.error();
+					},options.timeout);
+				}
+			}
+			window.onload = function() {
+				importJs({
+					url:"http://....com/weixin/config/info",
+					data:{id:shareID,_url:window.location.href},
+					cbName:"_cb",
+					success:function(json){
+						//console.log(json);
+						if(json.errno == 0){
+							peopleWXConfig = json.data;
+							setTimeout(function(){
+								shareWXData();
+							},200);
+						}
+						
+					}
+				});
+			};
+			var shareID = 5; //
+			var wxData = {
+				"imgUrl": 'http://.../2015/02/18/wx_48a6b6e1.jpg',
+				"link": window.location.href,
+				"desc": "分享描述",
+				"title": "分享标题"
+			};
+		</script>
+	</body>
+
+</html>
