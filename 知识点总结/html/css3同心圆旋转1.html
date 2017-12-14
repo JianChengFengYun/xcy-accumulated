@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="applicable-device" content="pc,mobile"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        @keyframes spin{
+            from{
+                transform: rotate(0turn) translateY(-150px) translateY(50%) rotate(1turn);
+            }
+            to {
+                transform: rotate(1turn) translateY(-150px) translateY(50%) rotate(0turn);
+            }
+        }
+        .avatar {
+            animation: spin 3s infinite linear;
+        }
+        .avatar {
+            display: block;
+            width: 50px;
+            height:50px;
+            line-height:50px;
+            text-align: center;
+            color:#fff;
+            background:#000;
+            margin: calc(50% - 25px) auto 0;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .path {
+            width: 300px;
+            height: 300px;
+            padding: 20px;
+            margin: 100px auto;
+            border-radius: 50%;
+            background: #fb3;
+        }
+    </style>
+
+</head>
+<body>
+<div class="path">
+    <div class="avatar">
+        <div>w3c</div>
+    </div>
+    <!--<div class="avatar">
+        <div>w3c</div>
+    </div>-->
+</div>
+
+<script src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>凤凰房产北京 - 全球华人首选高端物业门户 中国高端物业首席营销资讯平台-凤凰网</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="applicable-device" content="mobile" />
+    <link href="http://s0.ifengimg.com/static/wap/css/houseWap_v1.min_9021191b.css" rel="stylesheet" type="text/css">
+    <script src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+    <script type="text/javascript">
+        $("html").css("fontSize",$(window).width()/20 + "px");
+    </script>
+    <style>
+        *{margin:0;padding:0;}
+        ol,ul{
+            list-style: none;
+        }
+        .twopicSlide{
+            width:100%;
+            max-height:5.1016rem;
+            overflow: hidden;
+            position: relative;
+            /*background:url(../images/loading.gif) center center no-repeat;*/
+        }
+        .twopicSlide .prev,.twopicSlide .next{
+            position:absolute;
+            top:3rem;
+            z-index:100;
+            color:#007aff;
+            font-size:24px;
+        }
+        .twopicSlide .prev{
+            left:50px;
+        }
+        .twopicSlide .next{
+            right:50px;
+        }
+        .twopicSlide ul{
+            overflow: hidden;
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        .twopicSlide ul li{
+            float: left;
+            width: 100%;
+            height:5.1016rem;
+            position:relative;
+        }
+        .twopicSlide img{
+            display: block;
+            width:100%;
+            height:5.1016rem;
+        }
+        .twopicSlide ol{
+            width:100%;
+            overflow:hidden;
+            position:absolute;
+            left:0;
+            bottom:10px;
+            z-index:10;
+            text-align:center;
+            font-size:0;
+            line-height:0;
+        }
+        .twopicSlide ol li{
+            display:inline-block;
+            width:20px;
+            height:20px;
+            overflow:hidden;
+            margin: 0 5px;
+            background: #0000ff;
+            -webkit-border-radius:10px;
+            border-radius:10px;
+        }
+        .twopicSlide ol li.current{
+            background: #ef6e62;
+            color: #ef6e62;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="twopicSlide" id="twopicSlide">
+    <a class="prev" href="">上一张</a>
+    <a class="next" href="">下一张</a>
+    <ul id="sliderBox">
+        <li><a href="">111<img src="http://c1.ifengimg.com/mappa/2016/08/09/462c23d5ed4183baed6d1d902f862a52.jpg" alt=""></a></li>
+        <li><a href="">222<img src="http://c1.ifengimg.com/mappa/2016/07/15/87a2c17b6afc8bc6ddb421877ad574de.jpg" alt=""></a></li>
+        <li><a href="">333<img src="http://d.ifengimg.com/w500_h200_q/s2.ifengimg.com/2016/08/10/25b2e38d9251f1549aae41031eab10a5.jpg" alt=""></a></li>
+        <li><a href="">444<img src="http://d.ifengimg.com/w500_h200_q/s0.ifengimg.com/2016/08/11/892198576cda0530ba5397f4becf6c0b.jpg" alt=""></a></li>
+        <li><a href="">555<img src="http://d.ifengimg.com/w500_h200_q/s1.ifengimg.com/2016/08/10/ef71a55355170ccfca19c4ad3daa8c73.jpg" alt=""></a></li>
+    </ul>
+    <ol style="display:none">
+    </ol>
+</div>
+
+<script>
+    function Slide(c){
+        this.container=c;
+        this.slidebox=null;
+        this.slideList=null;
+        this.listwidth=null;
+        this.listlength=0;
+        this.iconbox=null;
+        this.nextbtn=null;
+        this.prevbtn=null;
+        this.speed=2000;
+        this.count=0;
+        this.timer=null;
+        this.oneClick=false;
+    }
+    Slide.prototype={
+        init:function(){
+            var me=this;
+            me.prevbtn=me.container.find('.prev');
+            me.nextbtn=me.container.find('.next');
+
+            me.slidebox=me.container.find('ul');
+            me.slideList=me.slidebox.find('li');
+            me.slideList.width($(window).width());
+            me.listlength=me.slideList.length;
+            me.listwidth=me.slidebox.find('li:first').width();
+            me.iconbox=me.container.find('ol');
+            if(me.listlength>0){
+                me.container.height(me.slidebox.find('li:first img').height());
+            }
+            if(me.listlength>1){
+                me.slidebox.width(me.listwidth*me.listlength);
+                var arr=[];
+                for(var i=0;i<me.listlength;i++){
+                    if(i==0){
+                        arr[i]='<li class="current"></li>';
+                    }else{
+                        arr[i]='<li></li>';
+                    }
+                }
+                me.iconbox.html(arr.join(''));
+                me.iconbox.show();
+                me.bind();
+            }
+        },
+        bind:function(){
+            var me=this;
+            me.autoScroll();
+
+            me.container.on('mouseenter',function(){
+                clearInterval(me.timer);
+                console.log('mouseenter');
+            });
+
+            me.container.on('mouseleave',function(){
+                me.autoScroll();
+                console.log('mouseleave');
+            });
+
+            me.prevbtn.click(function(e){
+                e.preventDefault();
+                if(!me.oneClick){
+                    me.oneClick=true;
+                    me.toPrev();
+                }
+            });
+
+            me.nextbtn.click(function(e){
+                e.preventDefault();
+                if(!me.oneClick){
+                    me.oneClick=true;
+                    me.toNext();
+                }
+            });
+
+            me.iconbox.find('li').click(function(){
+                if(!me.oneClick){
+                    me.oneClick=true;
+                    var i=$(this).index();
+                    if(i>me.count){//点右边，向左走
+                        if(parseInt(me.slidebox.css('left')) == -me.listwidth){
+                            for(var j=0;j<i-me.count;j++){
+                                me.slidebox.append(me.slidebox.find('li:first'));
+                            }
+                        }
+                        if(parseInt(me.slidebox.css('left')) == 0){
+                            for(var j=0;j<i-me.count-1;j++){
+                                me.slidebox.append(me.slidebox.find('li:first'));
+                            }
+                        }
+
+                        me.slidebox.css('left','0px');
+                        me.mubiao=-me.listwidth;
+                    }
+                    if(i<me.count){//点左边，向右走
+                        if(parseInt(me.slidebox.css('left')) == 0){
+                            for(var j=0;j<me.count-i;j++){
+                                me.slidebox.prepend(me.slidebox.find('li:last'));
+                            }
+                        }
+                        if(parseInt(me.slidebox.css('left'))== -me.listwidth){
+                            for(var j=0;j<me.count-i-1;j++){
+                                me.slidebox.prepend(me.slidebox.find('li:last'));
+                            }
+                        }
+                        me.slidebox.css('left',-me.listwidth);
+                        me.mubiao=0;
+                    }
+                    me.iconbox.find('li').removeClass('current').eq(i).addClass('current');
+                    me.startMove(me.slidebox,{'left':me.mubiao},function(){
+                        me.count=i;
+                        me.oneClick=false;
+                    });
+                }
+            });
+        },
+
+        autoScroll:function(){
+            var me=this;
+            clearInterval(me.timer);
+            me.timer=setInterval(function(){
+                if(!me.oneClick){
+                    me.oneClick=true;
+                    me.toNext();
+                    console.log(1);
+                }
+            },me.speed);
+        },
+
+        toNext:function(){ //下一张
+            var me=this;
+            if(parseInt(me.slidebox.css('left')) <= -me.listwidth){
+                me.slidebox.append(me.slidebox.find('li:first'));
+            }
+            if(me.count == me.listlength-1){
+                me.count=0;
+            }else{
+                me.count++;
+            }
+            me.slidebox.css('left','0px');
+            me.mubiao=-me.listwidth;
+            me.iconbox.find('li').removeClass('current').eq(me.count).addClass('current');
+            me.startMove(me.slidebox,{'left':me.mubiao},function(){
+                me.oneClick=false;
+            });
+        },
+
+        toPrev:function(){ //上一张
+            var me=this;
+            if(parseInt(me.slidebox.css('left')) >= 0){
+                me.slidebox.css('left',-me.listwidth);
+                me.slidebox.prepend(me.slidebox.find('li:last'));
+            }
+            if(me.count == 0){
+                me.count = me.listlength-1;
+            }else{
+                me.count--;
+            }
+            me.mubiao=0;
+            me.iconbox.find('li').removeClass('current').eq(me.count).addClass('current');
+            me.startMove(me.slidebox,{'left':me.mubiao},function(){
+                me.oneClick=false;
+            });
+        },
+
+        startMove:function(obj,json,fn){
+            var me=this;
+            var obj=obj[0];
+            clearInterval(obj.timer);
+            obj.timer=setInterval(function()
+            {
+                var bStop=true;
+                for(var attr in json)
+                {
+                    //1.取当前的值
+                    var iCur=0;
+                    if(attr=='opacity')
+                    {
+                        iCur=parseInt(parseFloat($(obj).css(attr))*100);
+                    }
+                    else
+                    {
+                        iCur=parseInt($(obj).css(attr));
+                    }
+                    //2.算速度
+                    var iSpeed=(json[attr]-iCur)/3;
+                    iSpeed=iSpeed>0?Math.ceil(iSpeed):Math.floor(iSpeed);
+                    //3.检测停止
+                    if(iCur!=json[attr])
+                    {
+                        bStop=false;
+                    }
+                    if(attr=='opacity')
+                    {
+                        obj.style.filter='alpha(opacity:'+(iCur+iSpeed)+')';
+                        obj.style.opacity=(iCur+iSpeed)/100;
+
+                    }
+                    else
+                    {
+                        obj.style[attr]=iCur+iSpeed+'px';
+                    }
+
+                }
+                if(bStop)
+                {
+                    clearInterval(obj.timer);
+                    if(fn)
+                    {
+                        fn();
+                    }
+                }
+            },30);
+        }
+    };
+    var twopic=new Slide($('.twopicSlide'));
+    twopic.init();
+</script>
+</body>
+</html>

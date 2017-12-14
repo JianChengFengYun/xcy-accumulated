@@ -1,0 +1,57 @@
+<meta name="x5-orientation" content="portrait">
+
+梁亚 2016/3/7 17:36:23
+meta
+注意：
+	<meta name="viewport" content="width=320">
+
+	手机分辨率：320
+
+	<meta name="viewport" content="width=device-width">
+
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+
+	<meta name="viewport" content="width=320,user-scalable=no,initial-scale=1">
+
+其他苹果专用meta：
+	网页变成app运行：(添加主屏幕)
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	顶部条样式：
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		black
+	<meta content="yes" name="apple-touch-fullscreen"/>
+	电话、邮箱阻止：
+	<meta content="telephone=no,email=no" name="format-detection"/>
+
+	移动端头部其他东西：
+	<meta name="apple-mobile-web-app-capable" content="yes" /><!-- 删除苹果默认的工具栏和菜单栏 -->
+	
+	<!-- 启用360浏览器的极速模式(webkit) -->
+	<meta name="renderer" content="webkit">
+
+	<!-- 避免IE使用兼容模式 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+	<meta name="HandheldFriendly" content="true">
+
+	<!-- 微软的老式浏览器 -->
+	<meta name="MobileOptimized" content="320">
+
+	<!-- uc强制竖屏 -->
+	<meta name="screen-orientation" content="portrait">
+	<!-- QQ强制竖屏 -->
+	<meta name="x5-orientation" content="portrait">
+
+	<!-- UC强制全屏 -->
+	<meta name="full-screen" content="yes">
+	<!-- QQ强制全屏 -->
+	<meta name="x5-fullscreen" content="true">
+
+	<!-- UC应用模式 -->
+	<meta name="browsermode" content="application">
+	<!-- QQ应用模式 -->
+	<meta name="x5-page-mode" content="app">
+
+	<!-- windows phone 点击无高光 -->
+	<meta name="msapplication-tap-highlight" content="no">

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script type="text/javascript" src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+<style>
+body {margin:0;padding:0;}
+</style>
+</head>
+<body>
+<div class="asd" style="width:100%;height:auto;background: #000"></div>
+<div style="height:4000px"></div>
+
+<script>
+var winH = $(window).height();
+$(".asd").height(winH);
+
+var a;           
+function scroll(fn) {
+    var beforeScrollTop = document.body.scrollTop,
+        fn = fn || function() {};
+    window.addEventListener("scroll", function() {//attachEvent
+        var afterScrollTop = document.body.scrollTop,
+            delta = afterScrollTop - beforeScrollTop;
+        if( delta === 0 ) return false;
+        fn( delta > 0 ? "down" : "up" );
+        beforeScrollTop = afterScrollTop;
+    }, false);
+}
+scroll(function(direction) { 
+    a =  direction;
+    var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;//注意解决兼容性
+	if(direction == "down" && scrollTop < winH){
+		$("html, body").animate({
+	      	"marginTop": -winH + "px"
+	    },500)
+	}else if(direction == "up" && scrollTop == 0){
+		$("html, body").animate({
+	      	"marginTop": "0px"
+	    },500)
+	}
+}); 
+</script>
+</body>
+</html>

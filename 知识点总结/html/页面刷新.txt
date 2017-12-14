@@ -1,0 +1,72 @@
+reload 方法，该方法强迫浏览器刷新当前页面。 
+语法： location.reload([bForceGet]) 
+参数： bForceGet， 可选参数， 默认为 false，从客户端缓存里取当前页。true, 则以 GET 方式，从服务端取最新的页面, 相当于客户端点击 F5("刷新") 
+
+replace 方法，该方法通过指定URL替换当前缓存在历史里（客户端）的项目，因此当使用replace方法之后，你不能通过“前进”和“后退”来访问已经被替换的URL。 
+语法： location.replace(URL) 
+在实际应用的时候，重新刷新页面的时候，我们通常使用： location.reload() 或者是 history.go(0) 来做。因为这种做法就像是客户端点F5刷新页面，所以页面的method="post"的时候，会出现“网页过期”的提示。那是因为Session的安全保护机制。可以想到： 当调用 location.reload() 方法的时候， aspx页面此时在服务端内存里已经存在， 因此必定是 IsPostback 的。如果有这种应用： 我们需要重新加载该页面，也就是说我们期望页面能够在服务端重新被创建， 我们期望是 Not IsPostback 的。这里，location.replace() 就可以完成此任务。被replace的页面每次都在服务端重新生成。你可以这么写： location.replace(location.href) 
+
+
+
+replace函数在设置URL方面与location的href属性或assign函数完全一样，但是它会删除history对象的地址列表中的URL，从而使go或back等函数无法导航。 
+
+示例 
+
+Html代码  收藏代码
+<input type="button" value="点击按钮定位到梦之都" onclick="location.replace('http://www.dreamdu.com/');">  
+
+
+
+
+
+
+
+下面是相关的应用与知识点： 
+window.location.href 
+window.top.location.replace("http://www.jb51.net") 
+top.location.href("http://www.jb51.net") 
+window.navigate ("http://www.jb51.net") 
+Html： 
+<meta http-equiv="Refresh" content="0; url=http://baidu.com/" > 
+--------------------------------------- 
+URL即:统一资源定位符 (Uniform Resource Locator, URL) 
+完整的URL由这几个部分构成： 
+scheme://host:port/path?query#fragment 
+scheme:通信协议 
+常用的http,ftp,maito等 
+host:主机 
+服务器(计算机)域名系统 (DNS) 主机名或 IP 地址。 
+port:端口号 
+整数，可选，省略时使用方案的默认端口，如http的默认端口为80。 
+path:路径 
+由零或多个"/"符号隔开的字符串，一般用来表示主机上的一个目录或文件地址。 
+query:查询 
+可选，用于给动态网页（如使用CGI、ISAPI、PHP/JSP/ASP/ASP.NET等技术制作的网页）传递参数，可有多个参数，用"&"符号隔开，每个参数的名和值用"="符号隔开。 
+fragment:信息片断 
+字符串，用于指定网络资源中的片断。例如一个网页中有多个名词解释，可使用fragment直接定位到某一名词解释。(也称为锚点.) 
+对于这样一个URL 
+http://www.jb51.net:80/fisker/post/0703/window.location.html?ver=1.0&id=6#imhere 
+
+我们可以用javascript获得其中的各个部分 
+1, window.location.href 
+整个URl字符串(在浏览器中就是完整的地址栏) 
+本例返回值: http://www.jb51.net:80/fisker/post/0703/window.location.html?ver=1.0&id=6#imhere 
+2,window.location.protocol 
+URL 的协议部分 
+本例返回值:http: 
+3,window.location.host 
+URL 的主机部分 
+本例返回值:www.jb51.net 
+4,window.location.port 
+URL 的端口部分 
+如果采用默认的80端口(update:即使添加了:80)，那么返回值并不是默认的80而是空字符 
+本例返回值:"" 
+5,window.location.pathname 
+URL 的路径部分(就是文件地址) 
+本例返回值:/fisker/post/0703/window.location.html 
+6,window.location.search 
+查询(参数)部分 
+除了给动态语言赋值以外，我们同样可以给静态页面,并使用javascript来获得相信应的参数值 
+本例返回值:?ver=1.0&id=6 
+7,window.location.hash 
+锚点 

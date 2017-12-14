@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>基本信息</title>
+	<link rel="stylesheet" href="css/member.css">
+	<script src="js/zepto.min.js"></script>
+	<script src="js/touch.js"></script>
+	<script src="js/member.js"></script>
+	<script src="js/newscitys.js"></script>
+</head>
+<body>
+	<section class="ttlheader">
+		<a href="">&#xe905;</a>
+		<h2>基本信息</h2>
+	</section>
+	<section class="su_con">
+		<div class="head clearfix">
+			<span>头像</span>
+			<a href="javascript:;"  id="basic-photo">
+				<i class="photo" id="biPhoto" ><img src="images/loginimg.png"></i>
+				<i class="more">&#xe902;</i>
+				<input type="file" id="biPhotoInput" class="biPhotoInput" />
+			</a>
+		</div>
+		<div class="name clearfix">
+			<span>昵称</span>
+			<a href="javascript:;"  id="basic-name"><span>我家有只喵lucky</span><i class="more">&#xe902;</i></a>
+		</div>
+		<div class="city clearfix">
+			<span>所在城市</span>
+			<a href="javascript:;" siteid="1"  id="basic-city"><span>北京</span><i class="more">&#xe902;</i></a>
+		</div>
+	</section>
+	<div class="su-lisp">
+		<p class="tips" id="basic-tips"></p>
+		<a class="btn-basicInf" id="btn-basicInf" href="javascript:;">保存</a>
+	</div>
+	<!--城市选择-->
+	<div class="member-citys">
+		<section class="ttlheader">
+			<a href="">&#xe905;</a>
+			<h2>城市列表</h2>
+		</section>
+		<div class="citys-conBox">
+			<h3>热门城市</h3>
+			<ul class="citys-hot">
+			</ul>
+		</div>
+		<div class="citys-conBox">
+			<h3>按拼音排序</h3>
+			<h4>A-K</h4>
+			<ul class="citys-ak">
+			</ul>
+			<h4>L-P</h4>
+			<ul class="citys-lp">
+			</ul>
+			<h4>Q-Z</h4>
+			<ul class="citys-qz">
+			</ul>
+		</div>
+	</div>
+	<!--昵称-->
+	<div  class="set-name">
+		<section class="ttlheader">
+			<a href="">&#xe905;</a>
+			<h2>修改昵称</h2>
+		</section>
+		<div class="su_name clearfix">
+			<span>请填入昵称</span>
+			<input type="text">
+		</div>
+		<p class="su_name_txt">用户昵称必须为3-20个中文、英文、数字组成，设置后不可更改</p>
+	</div>
+
+	<script src="js/basicInfo.js"></script>
+	<script>
+		//上传图片
+		var result=document.getElementById("biPhoto");
+		var file=document.getElementById("biPhotoInput");
+
+		//判断浏览器是否支持FileReader接口
+		if(typeof FileReader == 'undefined'){
+			result.InnerHTML="你的浏览器不支持FileReader接口！";
+			//使选择控件不可操作
+			file.setAttribute("disabled","disabled");
+		}else{
+			file.addEventListener('change',readAsDataURL,false); //如果支持就监听改变事件，一旦改变了就运行readFile函数。
+		}
+		function readAsDataURL(){
+			//检验是否为图像文件
+			var file = document.getElementById("biPhotoInput").files[0];
+			if(!/image\/\w+/.test(file.type)){
+				alert("文件必须为图片！");
+				return false;
+			}
+			var reader = new FileReader();
+			//将文件以Data URL形式读入页面
+			reader.readAsDataURL(file);
+			reader.onload=function(e){
+				var result=document.getElementById("biPhoto");
+				//显示文件
+				result.innerHTML='<img src="' + this.result +'" alt="" />';
+			}
+		}
+
+		$(function(){
+			var isLoadingCity=true;
+			$('.su_con .city a').on('click',function(event){
+				event.preventDefault();
+				$('.member-citys').show();
+				if(isLoadingCity){
+					isLoadingCity=false;
+					citys.init();
+				}
+			});
+			$('.member-citys .ttlheader a').on('click',function(event){
+				event.preventDefault();
+				$('.member-citys').hide();
+			});
+			$(".citys-conBox").on("click", function(e){
+				if( e.target.tagName == "A" ){
+					var sitedomain = $(e.target).attr("sitedomain");
+					var siteid = $(e.target).attr("siteid");
+					$('.su_con .city a').attr('siteid',siteid);
+					$('.su_con .city a span').html($(e.target).html());
+					$('.member-citys').hide();
+				}
+			});
+			$('.su_con .name a').on('click',function(event){
+				event.preventDefault();
+				$('.set-name').show();
+			});
+			$('.set-name .ttlheader a').on('click',function(event){
+				event.preventDefault();
+				$('.su_con .name a span').html($('.su_name input').val());
+				$('.set-name').hide();
+			});
+
+		});
+	</script>
+</body>
+</html>

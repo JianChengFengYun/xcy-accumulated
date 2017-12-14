@@ -1,0 +1,49 @@
+scroll(function(direction) { console.log(direction) });    
+function scroll( fn ) {
+    var beforeScrollTop = document.body.scrollTop,
+        fn = fn || function() {};
+    window.addEventListener("scroll", function() {
+        var afterScrollTop = document.body.scrollTop,
+            delta = afterScrollTop - beforeScrollTop;
+        if( delta === 0 ) return false;
+        fn( delta > 0 ? "down" : "up" );
+        beforeScrollTop = afterScrollTop;
+    }, false);
+}
+
+
+scroll(function(direction) { console.log(direction) });    
+function scroll( fn ) {
+    var $window = $(window),
+        beforeScrollTop = $window.scrollTop(),
+        fn = fn || function() {};
+
+    $window.scroll(function() {
+        var afterScrollTop = $window.scrollTop(),
+            delta = afterScrollTop - beforeScrollTop;
+        if( delta === 0 ) return false;
+        fn( delta > 0 ? "down" : "up" );
+        beforeScrollTop = afterScrollTop;
+    });
+}
+
+var $window = $(window);
+
+			var beforeScrollTop = $window.scrollTop();
+		$window.on("scroll",function(){
+            if($(document).scrollTop()+$(window).height()>$(".cb_loading").offset().top+100){
+				var afterScrollTop = $window.scrollTop();
+				var delta = afterScrollTop - beforeScrollTop;
+				if(delta>0){
+					$(".cb_loading>img").show();
+					if(me.index<me.totalPage){
+						me.index++;
+						me.queryData();
+					}else{
+						me.index= me.totalPage;
+						$(".cb_loading>img").hide();
+					}
+					beforeScrollTop = afterScrollTop;
+				}
+            }
+        });

@@ -1,0 +1,714 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="applicable-device" content="pc,mobile"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>title</title>
+    <style>
+
+        /*表格 start*/
+        html,body,div,p,ul,li,table,tbody,tr,td{
+            padding:0; margin:0;
+        }
+        ul{list-style:none;}
+        table,tbody,td {border-collapse: collapse;border-spacing: 0;}
+        .clearfix:after{display:table;content:"";clear:both;}
+        .fl-l {float: left;}
+        .city_data{
+            padding:0 30px;
+            width:940px;
+            height:541px;
+            overflow:hidden;
+        }
+        .city_data td{
+            font-size: 16px;
+            color:#707070;
+            text-align: center;
+        }
+        .data_tit{
+            width:380px;
+            border-top:1px solid #e6e0cf;
+            border-left:1px solid #e6e0cf;
+        }
+        .data_tit td,.data_list td{
+            height:35px;
+            line-height:35px;
+            border-right:1px solid #e6e0cf;
+            border-bottom:1px solid #e6e0cf;
+        }
+        .data_tit td .pl{
+            width:375px;
+            white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+        }
+        .data_tit td .ptt{
+            width:115px;
+            white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+        }
+        .data_tit td .pzc{
+            width:255px;
+            white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+        }
+        .width120{
+            width:120px;
+        }
+        .width260{
+            width:260px;
+        }
+        .bggrey{
+            background:#faf9f5;
+        }
+
+        .data_list{
+            width:480px;
+            height:541px;
+            overflow: hidden;
+        }
+        .data_list>ul{
+            overflow: hidden;
+        }
+        .data_list>ul>li{
+            float:left;
+        }
+        .data_list table{
+            width:480px;
+            overflow: scroll;
+            border-top:1px solid #e6e0cf;
+            table-layout:fixed;
+        }
+        .data_list td{
+            width:25%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+        }
+        .data_btn{
+            width:77px;
+            height:539px;
+            overflow: hidden;
+            border-top:1px solid #e6e0cf;
+            border-bottom:1px solid #e6e0cf;
+            border-right:1px solid #e6e0cf;
+            background-color: #edebe4;
+        }
+        .data_btn p{
+            height:269px;
+        }
+        .data_btn span{
+            display:inline-block;
+            width:42px;
+            height:22px;
+            background-image:url(http://s0.ifengimg.com/2016/04/12/z_xxtbn_c2f05bff.png);
+            background-repeat: no-repeat;
+            cursor:pointer;
+        }
+        .data_btn .toBottom{
+            margin:135px 0 0 20px;
+        }
+        .data_btn .toTop{
+            margin:100px 0 0 20px;
+            background-position:0 -236px;
+        }
+        /*表格 end*/
+    </style>
+</head>
+<body>
+
+    <!--表格 start-->
+    <div class="city_data clearfix">
+        <table class="data_tit fl-l">
+            <tbody>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr class="bggrey">
+                    <td colspan="2"><p class="pl">本地户籍限购套数</p></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><p class="pl">外地户籍限购套数</p></td>
+                </tr>
+                <tr class="bggrey">
+                    <td colspan="2"><p class="pl">外地户籍连续缴纳社保年数</p></td>
+                </tr>
+                <tr>
+                    <td rowspan="3" class="width120"><p class="ptt">首套房最低首付</p></td>
+                    <td class="width260"><p class="pzc">无房无贷款记录商业贷款</p></td>
+                </tr>
+                <tr class="bggrey">
+                    <td><p class="pzc">无房无贷款记录公积金贷款</p></td>
+                </tr>
+                <tr>
+                    <td><p class="pzc">无房有贷款记录商业贷款 已还清</p></td>
+                </tr>
+                <tr>
+                    <td rowspan="4"><p class="ptt">二手房最低首付</p></td>
+                    <td class="bggrey"><p class="pzc">有房已还清无贷款商业贷款</p></td>
+                </tr>
+                <tr>
+                    <td><p class="pzc">有房已还清无贷款公积金贷款</p></td>
+                </tr>
+                <tr class="bggrey">
+                    <td><p class="pzc">有房未还清无贷款商业贷款</p></td>
+                </tr>
+                <tr>
+                    <td><p class="pzc">有房未还清无贷款公积金贷款</p></td>
+                </tr>
+                <tr class="bggrey">
+                    <td colspan="2"><p class="pl">首套房商贷利率</p></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><p class="pl">二套房商贷利率</p></td>
+                </tr>
+                <tr class="bggrey">
+                    <td colspan="2"><p class="pl">公积金贷款要求</p></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><p class="pl">婚姻要求</p></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="fl-l data_list">
+            <ul class="clearfix">
+                <li>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>北京1</td>
+                                <td>广州1</td>
+                                <td>上海1</td>
+                                <td>深圳1</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>132</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                            </tr>
+                            <tr>
+                                <td>最低8.2折最低8.2折最低8.2折最低8.2折最低8.2折</td>
+                                <td>最低8.2折最低8.2折最低8.2折最低8.2折最低8.2折</td>
+                                <td>最低8.2折最低8.2折最低8.2折最低8.2折最低8.2折</td>
+                                <td>最低8.2折最低8.2折最低8.2折最低8.2折最低8.2折</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                            </tr>
+                            <tr>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>北京22</td>
+                                <td>广州22</td>
+                                <td>上海22</td>
+                                <td>深圳22</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                            </tr>
+                            <tr>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                            </tr>
+                            <tr class="bggrey">
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                            </tr>
+                            <tr>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                                <td>最低8.2折</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>北京333</td>
+                            <td>广州333</td>
+                            <td>上海333</td>
+                            <td>深圳333</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>北京333</td>
+                            <td>广州333</td>
+                            <td>上海333</td>
+                            <td>深圳333</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>北京333</td>
+                            <td>广州333</td>
+                            <td>上海333</td>
+                            <td>深圳333</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr class="bggrey">
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        <tr>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                            <td>最低8.2折</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+        <div class="fl-l data_btn">
+            <p class="bggrey"><span class="toBottom"></span></p>
+            <p><span class="toTop"></span></p>
+        </div>
+    </div>
+    <script src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+    <script>
+        function policyCity(container){
+            this.container=container;
+            this.total=0;
+            this.num=1;
+            this.toNextBtn=null;
+            this.toPrevBtn=null;
+        }
+        policyCity.prototype={
+            init:function(){
+                this.total=this.container.find('.data_list>ul>li').length;
+                this.toNextBtn=this.container.find('.toTop');
+                this.toPrevBtn=this.container.find('.toBottom');
+                this.bind();
+            },
+            bind:function(){
+                var me=this;
+                me.toNextBtn.on('click',function(){
+                    if(me.num<me.total){
+                        if(!me.container.find('.data_list>ul').is(":animated")) {
+                            var marTop = parseInt(me.container.find('.data_list>ul').css('margin-top'));
+                            me.container.find('.data_list>ul').animate({
+                                marginTop: marTop - 541
+                            });
+                            me.num++;
+                        }
+                    }else{
+                        me.num=me.total;
+                    }
+                });
+                me.toPrevBtn.on('click',function(){
+                    if(me.num>1){
+                        if(!me.container.find('.data_list>ul').is(":animated")) {
+                            var marTop = parseInt(me.container.find('.data_list>ul').css('margin-top'));
+                            me.container.find('.data_list>ul').animate({
+                                marginTop: marTop + 541
+                            });
+                            me.num--;
+                        }
+                    }else{
+                        me.num=1;
+                    }
+                });
+            }
+
+        };
+        $(document).ready(function(){
+            var xxzc=new policyCity($('.city_data'));
+            xxzc.init();
+        });
+    </script>
+    <!--表格 end-->
+</body>
+</html>
