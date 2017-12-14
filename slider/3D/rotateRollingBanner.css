@@ -1,0 +1,20 @@
+﻿#banner ul,#banner li{margin:0;padding:0;list-style:none}
+#banner img{border:0;vertical-align:top}
+
+#banner{position:relative; height:400px;background:url('img/bg3.jpg') no-repeat center 0;text-align:left}
+#banner .d_img{position:relative;margin:0 auto;width:1000px;height:100%} 
+#banner .d_img li{position:absolute;display:none;z-index:0}
+#banner .d_img li img{width:100%}
+
+#banner .d_img li.d_pos1{display:block;width:400px;left:0%;top:60px;z-index:1}
+#banner .d_img li.d_pos2{display:block;width:450px;left:10%;top:40px;z-index:2}
+#banner .d_img li.d_pos3{display:block;width:500px;left:25%;top:20px;z-index:3}
+#banner .d_img li.d_pos4{display:block;width:450px;right:10%;top:40px;z-index:2}
+#banner .d_img li.d_pos5{display:block;width:400px;right:0%;top:60px;z-index:1}
+
+#banner .d_menu{position:absolute;bottom:20px;width:100%;text-align:center}
+#banner .d_menu li{display:inline-block;zoom:1;*display:inline;background:url('img/btn.png') no-repeat 0 0;width:12px;height:12px;cursor:pointer;margin-right:3px}
+#banner .d_menu li.d_select{background:url('img/btn.png') no-repeat 0 -18px}
+
+#banner .d_next{position:absolute;left:50%;margin-left:475px;top:140px;z-index:10;cursor:pointer}
+#banner .d_prev{position:absolute;left:50%;margin-left:-525px;top:140px;z-index:10;cursor:pointer}

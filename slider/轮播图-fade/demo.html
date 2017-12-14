@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>焦点图</title>
+<script type="text/javascript" src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+<style>
+*{padding:0; margin: 0;}
+/***************焦点图******************/
+.slide{
+    width:730px;
+    height:340px;
+    position:relative;
+    overflow:hidden
+}
+.slide ul{
+    height:340px;
+    overflow:hidden
+}
+.slide ul li{
+    float:left;
+    width:730px;
+    position:relative
+}
+.slide ul li img{
+    width:730px;
+    height:340px
+}
+.slide ul li p{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:49px;
+    font:22px/49px "微软雅黑","宋体";
+    filter:progid:DXImageTransform.Microsoft.gradient(enabled="true",startColorstr="#B2080B12",endColorstr="#B2080B12");
+    background-color:rgba(8,11,18,0.7)
+}
+:root .slide ul li p{
+    filter:none
+}
+.slide ul li p,.slide ul li p a{
+    color:#fff !important;
+}
+.slide ul li p a{
+    display:block;
+    width:610px;
+    text-indent:20px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+.slide ol{
+    position:absolute;
+    right:20px;
+    bottom:16px;
+    width:500px;
+    text-align:right;
+    font-size:0;
+    word-spacing:-1px;
+}
+.slide ol li{
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+    width:10px;
+    height:10px;
+    text-indent:-9000px;
+    overflow:hidden;
+    margin-right:10px;
+    cursor:pointer;
+    background-position:-313px -152px;
+}
+.slide ol li.current{
+    background-position:-333px -152px
+}
+.slide-prev,.slide-next{
+    position:absolute;
+    top:135px;
+    width:31px;
+    height:70px;
+    cursor:pointer;
+    z-index:1000;
+    background: url(http://s0.ifengimg.com/static/news/images/icons_58594fc1.png) no-repeat;
+}
+.slide-prev{
+    left:0;
+    background-position:-80px -322px
+}
+.slide-next{
+    right:0;
+    background-position:-138px -322px
+}
+</style>
+</head>
+
+<body>
+<div class="slide">
+    <div class="slide-prev"></div>
+    <div class="slide-next"></div>
+    <ul>
+        <li>
+            <a href="http://house.ifeng.com" target="_blank"><img src="http://s0.ifengimg.com/2015/03/05/e31ba298c56a1805663e237cba424713.jpg"></a>
+            <p>
+                <a href="http://house.ifeng.com" target="_blank">3.15消费者房屋质量维权线索征集令 说出你的困扰吧！</a>
+            </p>
+        </li>
+        <li>
+            <a href="http://house.ifeng.com" target="_blank"><img src_original="http://s1.ifengimg.com/2015/03/05/1de62b5e7ee29c3e3364bf78fe0e40be.jpg"></a>
+            <p>
+                <a href="http://house.ifeng.com" target="_blank">3.15消费者房屋质量维权线索征集令 说出你的困扰吧！</a>
+            </p>
+        </li>
+        <li>
+            <a href="http://house.ifeng.com" target="_blank"><img src_original="http://y3.ifengimg.com/mappa/2015/04/20/4233f6d6d68a8e9008c7a8a8eb96a022.jpg"></a>
+            <p>
+                <a href="http://house.ifeng.com" target="_blank">3.15消费者房屋质量维权线索征集令 说出你的困扰吧！</a>
+            </p>
+        </li>
+        <li>
+            <a href="http://house.ifeng.com" target="_blank"><img src_original="http://s1.ifengimg.com/2015/03/05/1de62b5e7ee29c3e3364bf78fe0e40be.jpg"></a>
+            <p>
+                <a href="http://house.ifeng.com" target="_blank">3.15消费者房屋质量维权线索征集令 说出你的困扰吧！</a>
+            </p>
+        </li>
+        <li>
+            <a href="http://house.ifeng.com" target="_blank"><img src_original="http://s0.ifengimg.com/2015/03/06/0a9e0d018bf7974adc39d7096d4fe60d.jpg"></a>
+            <p>
+                <a href="http://house.ifeng.com" target="_blank">3.15消费者房屋质量维权线索征集令 说出你的困扰吧！</a>
+            </p>
+        </li>
+    </ul>
+    <ol></ol>
+</div>
+<script type="text/javascript" src="focusSlide.js"></script>
+<script>
+$(function(){
+    var slide = new focusSlide($(".slide"));
+    slide.preButton = $(".slide-prev");
+    slide.nextButton = $(".slide-next");
+    slide.ispreNextShow = true;
+    slide.init();
+});
+</script>
+</body>
+</html>

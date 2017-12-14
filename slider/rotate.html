@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=1180, maximum-scale=1.0, user-scalable=yes"/>
+    <meta name="applicable-device" content="pc,mobile"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>title</title>
+    <!--<link rel="stylesheet" href="css/style.css">-->
+    <script src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+    <script src="http://s0.ifengimg.com/2016/08/29/jQueryRotate.2.2_411f16a1.js"></script>
+    <script src="http://s0.ifengimg.com/2016/08/29/jquery.easing.min_434a0945.js"></script>
+
+    <style>
+        *{margin:0;padding:0;}
+        ul{
+            list-style: none;
+        }
+        .box{
+            width:752px;
+            height:600px;
+            position:relative;
+            overflow: hidden;
+        }
+        .ball{
+            position:absolute;
+            left:100px;
+            top:100px;
+            width:200px;
+            height:200px;
+        }
+
+        .citys li{
+            position:absolute;
+        }
+        .citys .pos1{
+            left: 70px;
+            top: 200px;
+        }
+        .citys .pos2{
+            left: 110px;
+            top: 100px;
+        }
+        .citys .pos3{
+            left: 260px;
+            top: 100px;
+        }
+        .citys .pos4{
+            left: 300px;
+            top: 200px;
+        }
+        .citys .pos5{
+            left: 250px;
+            top: 290px;
+        }
+        .citys .pos6{
+            left: 140px;
+            top: 290px;
+        }
+        .next,.prev{
+            cursor:pointer;
+            position: absolute;
+            top:350px;
+        }
+        .next{
+            left:200px;
+        }
+        .prev{
+            left:50px;
+        }
+        .fs{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .con{
+            position: absolute;
+            top:400px;
+            left:0;
+        }
+        .con div{
+            display:none;
+        }
+    </style>
+    <script>
+        function Rotate(){
+            this.lis =null;
+            this.lisLength = 0;
+            this.allLi = [];         // 存贮所有li的属性；
+            this.Sanger=60;
+            this.curanger=0;
+            this.Sindex=2;
+            this.isAnimate=true;
+        }
+        Rotate.prototype={
+            init:function(){
+                this.lis =$('.citys li');
+                this.lisLength = this.lis.length;
+                for(var i=0;i<this.lisLength;i++){
+                    var liN = this.lis.eq(i);
+                    this.allLi[i] = {
+                        left: liN.position().left,
+                        top: liN.position().top
+                    };
+                }
+                this.bind();
+            },
+            bind:function(){
+                var me=this;
+                $('.next').click(function(){
+                    if(me.isAnimate){
+                        me.isAnimate=false;
+                        me.curanger+=me.Sanger;
+                        me.Sindex--;
+                        if(me.Sindex<0){
+                            me.Sindex=me.lisLength-1;
+                        }
+
+                        $('.citys li').removeClass('fs').eq(me.Sindex).addClass('fs');
+                        $('.con div').hide().eq(me.Sindex).show();
+                        me.next();
+                    }
+                })
+                $('.prev').click(function(){
+                    if(me.isAnimate){
+                        me.isAnimate=false;
+                        me.curanger-=me.Sanger;
+                        me.Sindex++;
+                        if(me.Sindex>me.lisLength-1){
+                            me.Sindex=0;
+                        }
+                        console.log();
+                        $('.citys li').removeClass('fs').eq(me.Sindex).addClass('fs');
+                        $('.con div').hide().eq(me.Sindex).show();
+                        me.prev();
+                    }
+                })
+            },
+            next:function(){
+                var me=this;
+                $('.ball').stopRotate();
+                $(".ball").rotate({ animateTo:me.curanger,center: ["50%", "50%"]});
+                for(var i=0;i<me.lisLength;i++){
+                    if(i<me.lisLength-1){
+                        me.lis.eq(i).animate({
+                            left: me.allLi[i+1].left,
+                            top: me.allLi[i+1].top
+                        })
+                    }
+                    if(i==me.lisLength-1){
+                        me.lis.eq(i).animate({
+                            left: me.allLi[0].left,
+                            top: me.allLi[0].top
+                        },function(){
+                            //重新存贮属性
+                            for(var j=0;j<me.lisLength;j++){
+                                var liN = me.lis.eq(j);
+                                me.allLi[j] = {
+                                    left: liN.position().left,
+                                    top: liN.position().top
+                                };
+                            }
+                            me.isAnimate=true;
+                        })
+                    }
+                }
+            },
+            prev:function(){
+                var me=this;
+                $('.ball').stopRotate();
+                $(".ball").rotate({ animateTo:me.curanger,center: ["50%", "50%"]});
+                for(var i=me.lisLength-1;i>=0;i--){
+                    if(i>0){
+                        me.lis.eq(i).animate({
+                            left: me.allLi[i-1].left,
+                            top: me.allLi[i-1].top
+                        })
+                    }
+                    if(i==0){
+                        me.lis.eq(i).animate({
+                            left: me.allLi[me.lisLength-1].left,
+                            top: me.allLi[me.lisLength-1].top
+                        },function(){
+                            //重新存贮属性
+                            for(var j=0;j<me.lisLength;j++){
+                                var liN = me.lis.eq(j);
+                                me.allLi[j] = {
+                                    left: liN.position().left,
+                                    top: liN.position().top
+                                };
+                            }
+                            me.isAnimate=true;
+                        })
+                    }
+                }
+            }
+        }
+
+        $(function(){
+            var ra=new Rotate();
+            ra.init();
+        })
+    </script>
+</head>
+<body>
+<div class="box">
+    <ul class="citys">
+        <li class="pos1">北京</li>
+        <li class="pos2">上海</li>
+        <li class="pos3 fs">杭州</li>
+        <li class="pos4">深圳</li>
+        <li class="pos5">天津</li>
+        <li class="pos6">广州</li>
+    </ul>
+    <img class="ball" src="http://s0.ifengimg.com/2016/08/29/circ4_8abf51a7.png" alt="">
+    <div class="con">
+        <div style="display:block">111</div>
+        <div>222</div>
+        <div>333</div>
+        <div>444</div>
+        <div>555</div>
+        <div>666</div>
+    </div>
+    <div class="prev" href="">上一个</div>
+    <div class="next" href="">下一个</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="applicable-device" content="pc,mobile"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>title</title>
+    <style>
+        *{
+            margin:0;padding:0;
+        }
+        :focus{outline:none;}
+        a{
+            text-decoration: none;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+        /*时间线*/
+        #timeline{
+            width:880px;height:450px;
+            margin:0 auto;
+            position:relative;
+            background:url(http://s0.ifengimg.com/2016/04/12/z_time_8af4ffd1.png) 0 59px no-repeat;
+        }
+        .timeline_dates{
+            width:724px; height:130px; margin:0 auto; overflow:hidden;
+            position:relative;
+        }
+        .dates{
+            height:60px;overflow:hidden;
+        }
+        .dates li{
+            list-style:none;float:left;
+            width:181px;height:60px;text-align:center;
+        }
+        .dates a{
+            font-size:17px; color:#fff;
+            text-decoration:none;
+            width:181px;height:60px;line-height:29px;
+            text-align:center;
+            display:block;
+            position:relative;
+            background:url('http://s0.ifengimg.com/2016/04/12/z_linetime_cd99e726.png') no-repeat -138px 0;
+        }
+        .dates a.selected{
+            background:url('http://s0.ifengimg.com/2016/04/12/z_linetime_cd99e726.png') no-repeat 36px 0;
+        }
+        .dates a.selected i{
+            display:block;
+            width:11px;height:6px;overflow:hidden;
+            position:absolute;bottom:-6px;left:31px;
+        }
+        .dates li.neverh a{}
+        .dates li.neverh a.selected{}
+        .dates li.neverh a.selected i{}
+        .width880{
+            width:880px;height:300px;overflow:hidden;
+        }
+        .issues{height:300px;overflow:hidden;}
+        .issues li{
+            width:880px;height:300px;overflow: hidden;
+            list-style:none;
+            float:left;
+        }
+        .issues li .imgBox{
+            float:left;
+            width:390px;height:240px;
+            padding:5px;
+            text-align:center;
+            margin:0 40px 0 30px;
+            background:#dcdcdc;
+        }
+        .issues li .imgBox>img{
+            width:390px;height:240px;
+        }
+        .issues li h3{
+            float:left;
+            width:370px;
+            height:30px;line-height:30px;
+            color:#b7775e;
+            font-size:21px;
+            font-weight:bold;
+            margin-bottom:10px;
+            overflow:hidden;
+        }
+        .issues li h3 a{
+            color:#b7775e;
+        }
+        .issues li p {
+            float:left;
+            width:370px;
+            font-size:17px;
+            line-height:29px;
+            color:#707070;
+        }
+        .issues li p a{
+            color:#db1515;
+            text-decoration:none;
+            font-weight:bold;
+            letter-spacing:1px;
+        }
+        .next,.prev{
+            position:absolute;
+            top:180px;
+            font-size:70px;
+            width:45px;height:122px;
+            display:block;
+            background-color:#f5f3ec;
+            background-image:url('http://s0.ifengimg.com/2016/04/12/z_timebtn_fa6927df.png');
+            background-repeat:no-repeat;
+            text-indent:-9999px;
+            overflow:hidden;
+        }
+        .next{
+            right:-45px;
+            background-position:-900px center;
+        }
+        .prev{
+            left:-45px;
+            background-position:7px center;
+        }
+        .next.disabled,.prev.disabled{
+            opacity:0.2;
+        }
+        /*时间线 end*/
+    </style>
+</head>
+<body>
+
+    <div id="timeline">
+        <div class="timeline_dates">
+            <ul class="dates">
+                <li><a href="#1"><i></i>2月20日</a></li>
+                <li><a href="#2"><i></i>3月15日</a></li>
+                <li><a href="#3"><i></i>3月31日</a></li>
+                <li><a href="#4"><i></i>4月24日</a></li>
+                <li><a href="#5"><i></i>6月25日</a></li>
+                <li><a href="#6"><i></i>7月22日</a></li>
+                <li><a href="#7"><i></i>7月24日</a></li>
+                <li><a href="#8"><i></i>8月12日</a></li>
+                <li><a href="#9"><i></i>8月21日</a></li>
+                <li><a href="#10"><i></i>8月28日</a></li>
+            </ul>
+        </div>
+        <div class="width880">
+            <ul class="issues">
+            <li id="1">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b8f87dc8315.jpg" width="350" height="221" /></div>
+                <h3><a href="">"新国五条"颁布</a></h3>
+                <p>2月20日，国务院常务会议出台楼市调控"新国五条"。重申坚持执行以限购、限贷为核心的调控政策，坚决打击投资投机性购房，要求各地公布年度房价控制目标。自2009年12月份开始楼市调控以来，政策经历了四次升级，分别是2010年1月的"国十一条"、4月的"国十条"、9月的"9.29新政"，2011年1月的"新国八条"，而这次出台的"国五条"则是第五次调控升级。
+                </p>
+            </li>
+            <li id="2">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b8f9cc3719f.jpg" width="350" height="221" /></div>
+                <h3><a href="">40个城市完成住房信息联网</a></h3>
+                <p>全国政协委员、住房和城乡建设部副部长齐骥近日表示，40个城市的住房信息联网已完成。不过，住房和城乡建设部部长姜伟新表示，住房信息联网系统有相当的难度，但要继续努力把它建立起来。联网工作的完成，不仅是推动房产税扩围的基础，2012年年初，姜伟新曾指出，如果全国住房信息联网系统将来建立起来了，就不必再采取限购这种行政色彩浓厚的办法。
+                </p>
+            </li>
+            <li id="3">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b8f9cc755d5.jpg" width="350" height="221" /></div>
+                <h3><a href="">"国五条"地方细则全面落地</a></h3>
+                <p>3月最后两天，北京、上海、重庆、天津等直辖市和其他一线城市按规定出台楼市调控地方版细则，加上此前广东公布的调控细则，以及国务院规划出台不动产统一登记制度，从中央到地方，从限购、限贷到税收、信息联网，新一轮调控政策升级为"史上最严"。一系列"央地联动"的政策组合拳"出拳"迅猛，将从限购、限贷、税收和住房信息联网等方面全面升级调控。
+                </p>
+            </li>
+            <li id="4">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b8f9ccbb6b9.png" width="350" height="221" /></div>
+                <h3><a href="">SOHO中国失手外滩地王争夺</a></h3>
+                <p>在主动与被动爆料"反水门"、"心路门"后，SOHO中国董事长潘石屹依然没能在外滩地王的争夺战中成为胜者。上海第一中级人民法院昨日就外滩地王案正式宣判原告复星集团胜诉，被告上海证大[简介 最新动态]、绿城[简介 最新动态]中国和SOHO中国三方的转让协议无效，并宣布判决后15日内外滩地王的股权将恢复至转让前。
+                </p>
+            </li>
+            <li id="5">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b92bf0285ae.jpg" width="350" height="221" /></div>
+                <h3><a href="">钱荒来袭地产股暴跌</a></h3>
+                <p>6月中下旬，国内商业银行间资金拆借市场竟然出现多次罕见流动性紧缺，隔夜拆借利率急剧攀升，并且一次比一次严重。尽管如此，等来的却是中国央行"不放水"的明确态度。受此影响，今日国内及香港股市均受到"重创",上证指数暴跌5.3%,跌破2000点大关,银行和地产板块是暴跌的主要动力，国内龙头房企"招保万金"跌幅全部超过7%，其中招商地产和保利跌停。
+                </p>
+            </li>
+            <li id="6">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b924360a620.jpg" width="350" height="221" /></div>
+                <h3><a href="">农村集体土地确权完成</a></h3>
+                <p>7月22日，国土资源部宣布全国农村集体土地所有权确权登记发证工作已基本完成，下一步将着手研究做好不动产统一登记的各项准备工作。
+                    在工作计划中，确权登记将是农村集体建设用地流转的核心前提之一，特别是对于酝酿开展集体建设用地流转的地区而言。农村集体土地所有权确权登记临近尾声，则是一个重要进展。
+                </p>
+            </li>
+            <li id="7">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b92d368a811.jpg" width="350" height="221" /></div>
+                <h3><a href="">湖南"世界第一高楼"被叫停</a></h3>
+                <p>号称高838米、比"迪拜塔"还要高10米的世界第一高楼"天空城市"，因没有完成相关法定的报建手续，被有关部门叫停。据透露，世界第一高楼，尽管是企业投资，但项目建设难度较大，其可建度、安全性能、能源环保等方面均需要进行科学论证和相关审批，但目前远大并没有到省、市等相关部门进行报建手续和相关行政许可。
+                </p>
+            </li>
+            <li id="8">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b92d83d9d94.jpg" width="350" height="221" /></div>
+                <h3><a href="">北京一26层高楼房顶盖别墅</a></h3>
+                <p>位于白石桥路45号的人济山庄小区B栋楼顶平台上建造了一片两层的小楼，墙体外表还用岩石质感外壳包裹上，并在外壳上种上一些花草。建造者是顶层一住户，在建造过程中将平台上的管道口破坏导致雨水流入，多名居民家中漏水。附近居民称，自从2007年起，张教授在天台上就不断地施工建造"小别墅"。"到今年已经6年了，还是能听见电钻声。
+                </p>
+            </li>
+            <li id="9">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b9251c2e6b3.jpg" width="350" height="221" /></div>
+                <h3><a href="">李嘉诚出售物业引发楼市猜想</a></h3>
+                <p>华人首富李嘉诚的想法总是令人难以捉摸。8月21日，据内地媒体引述多名知情人士透露，李嘉诚旗下公司长江实业（集团）有限公司打算出售其在上海陆家嘴开发的首个写字楼项目"东方汇经OFC"，售价60亿元人民币以上。这一举动令这位原本就已陷入"撤资香港"、"投资重心西移"等舆论漩涡的"超人"再一次成为外界关注的焦点。
+                </p>
+            </li>
+            <li id="10">
+                <div class="imgBox"><img src="http://y1.ifengimg.com/44b3f7f1c8bc6782/2013/1224/rdn_52b9259b73a57.jpg" width="350" height="221" /></div>
+                <h3><a href="">温州土改：农村房屋可在县内交易</a></h3>
+                <p>8月28日，浙江温州市出台《农村产权交易管理暂行办法》，宣布包括农村土地承包经营权、
+                    林地使用权、农村房屋所有权、农村集体经营性建设用地使用权均可以交易。一直以来，我国法律对农民私有房屋的买卖、转让限制严格，禁止转让给外村村民和非农业户口居民。温州这次改革，最大的突破在于，农屋从村级交易扩展到县域交易，同时允许宅基地在非城镇户籍中流转。
+                </p>
+            </li>
+        </ul>
+        </div>
+        <a href="#" class="next">+</a> <a href="#" class="prev">-</a>
+    </div>
+    <script src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+    <script type="text/javascript" src="http://s0.ifengimg.com/2016/04/12/timelinr_bb02477f.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            //这里为效果参数设置，可根据说明设置
+            $('#timeline').timelinr({
+                orientation: 				'horizontal',		    // value: horizontal | vertical, default to horizontal
+                datesSelectedClass: 		'selected',			// value: any class, default to selected
+                issuesSelectedClass: 		'selected',			// value: any class, default to selected
+                arrowKeys: 				'false',			    // value: true | false, default to false
+                startAt: 					3,					    // value: integer, default to 1 (first)
+                autoPlay: 					'false',			    // value: true | false, default to false
+                autoPlayDirection: 		'forward',			   // value: forward | backward, default to forward
+                autoPlayPause: 			4000				   // value: integer (1000 = 1 seg), default to 5000 (5segs)
+            })
+        });
+    </script>
+
+</body>
+</html>

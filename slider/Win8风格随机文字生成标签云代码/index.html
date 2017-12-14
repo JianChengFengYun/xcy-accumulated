@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Win8风格随机文字生成标签云代码</title>
+
+<link rel="stylesheet" type="text/css" href="css/wordbox.css">
+
+<style type="text/css">
+.box-wrap{min-width:400px;max-width:1200px;height:200px;}
+#box-fixedWidth1{position:absolute;top:220px;}
+#box-fixedWidth2{position:absolute;top:430px;}
+</style>
+
+</head>
+<body>
+
+<div class="box-wrap">
+	<div id="box-responsive" class="wordbox"></div>
+</div>
+
+<div id="box-fixedWidth1" class="wordbox"></div>
+<div id="box-fixedWidth2" class="wordbox"></div>
+
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/wordbox.js"></script>
+<script type="text/javascript">
+$(function() {
+
+    var titles = ['JavaScript', 'CSS', 'HTML', 'HTML5', 'SVG', 'PHP', 'Python', 'Shell', 'WebGL', '源码之家'];
+    var words = [];
+    for(var i = 0; i < titles.length; i++) {
+        words[i] = {
+            'title' : titles[i],
+            'url' : ''
+        }
+    }
+    var colors1 = ['#F46779', '#045DA4'];    
+    var colors2 = ['#D59A3E', '#C58B59'];    
+    var colors3 = ['#49B4E0', '#FCBDA2', '#EBADBD', '#D5C2AF', '#C0BDE5', '#CBCC7F', '#FFDA7F', '#8dd0c3', '#bbbfc6', '#a4d9ef', '#bbdb98'];
+
+    // responsive
+    // 响应式wordbox需要有外层嵌套div
+    
+    var wb1 = new WordBox('#box-responsive', {
+        isLead: false,          //是否包含“全部”分类  
+        leadWord: null,
+        words: words,
+        colors: colors1,
+        borderWidth: 2,
+        isFixedWidth: false
+    });
+
+    // fixed width
+    $('#box-fixedWidth1').wordbox({
+        isLead: false,    
+        leadWord: null,
+        words: words,
+        colors: colors2,
+        borderWidth: 2,
+        isFixedWidth: true,
+        width: 800,
+        height: 200
+    });
+
+    $('#box-fixedWidth2').wordbox({
+        isLead: true,          
+        leadWord: {'title': '全部', 'url': 'http://www.mycodes.net/','title': 'css', 'url': 'http://www.baidu.com/','title': 'JavaScript', 'url': 'http://www.jquery.com/'},
+        words: words,
+        colors: colors3,
+        borderWidth: 2,
+        isFixedWidth: true,
+        width: 280,
+        height: 300
+    });
+
+
+    // 鼠标浮动加下划线
+    $('.box a').hover(function(event) {            
+        $(this).css({'text-decoration': 'underline'});
+        event.stopPropagation();
+    }, function(event) {
+        $(this).css({'text-decoration': 'none'});
+        event.stopPropagation();
+    });
+    // 鼠标浮动字体变大
+    var fontSize = $('#box-responsive').css('font-size');
+    $('#box-fixedWidth1 .box a').hover(function(event) {  
+        $(this).css({'font-size': '1.4em'});
+        event.stopPropagation();
+    }, function(event) {
+        $(this).css({'font-size': fontSize});
+        event.stopPropagation();
+    });
+
+});
+ </script>
+
+<div style="text-align:center;">
+<p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+</div>
+
+</body>
+</html>

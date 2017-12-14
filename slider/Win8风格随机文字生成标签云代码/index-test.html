@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Win8风格随机文字生成标签云代码</title>
+    <script src="http://s0.ifengimg.com/static/js/houseBase.min_bccd971a.js"></script>
+<style type="text/css">
+#box-fixedWidth2{
+    font-size:16px;
+}
+.wordbox{
+    position:relative;
+}
+.box{
+    position:absolute;
+    text-align:center;
+    word-wrap:break-word;/*注意设置word-wrap属性*/
+    overflow:hidden;
+    border:2px solid #fff;
+}
+.box a{
+    color:#fff;
+    text-decoration:none;
+    display:inline-block;
+    width:100%;
+    height:100%;
+}
+</style>
+</head>
+<body>
+<div id="box-fixedWidth2" class="wordbox"></div>
+<script type="text/javascript" src="js/wordbox-test.js"></script>
+<script type="text/javascript">
+$(function() {
+    var titles = [
+        '中原地产招聘策划',
+        '世联行招聘销售副总',
+        '万科地产招聘项目总监',
+        '合富辉煌急招置业顾问',
+        '绿地急招园林设计',
+        '满堂红长期招聘高级置业顾问',
+        '深振业地产招聘营销总监',
+        '链家地产招聘销售总监',
+        '越秀地产诚聘品牌总监',
+        '龙湖诚聘策划助理',
+        '恒大地产诚招人力资源总监',
+        '绿城招聘前期策划',
+        '碧桂园聘请市场总监'
+    ];
+    var words = [];
+    for(var i = 0; i < titles.length; i++) {
+        words[i] = {
+            'title' : titles[i],
+            'url' : ''
+        }
+    }
+    var colors3 = [
+        '#46a8ea',
+        '#3fba93',
+        '#d8a78a',
+        '#ff552d',
+        '#5675bd',
+        '#5cb5d2',
+        '#f87474',
+        '#b66740',
+        '#b38abc',
+        '#e1a618',
+        '#837258',
+        '#63950d',
+        '#34d6d4'
+    ];
+    $('#box-fixedWidth2').wordbox({
+        isLead: false,
+        leadWord: null,
+        words: words,
+        colors: colors3,
+        borderWidth: 2,
+        isFixedWidth: true,
+        width: 647,
+        height: 205
+    });
+    // 鼠标浮动加下划线
+    $('.box a').hover(function(event) {            
+        $(this).css({'text-decoration': 'underline'});
+        event.stopPropagation();
+    }, function(event) {
+        $(this).css({'text-decoration': 'none'});
+        event.stopPropagation();
+    });
+    /*// 鼠标浮动字体变大
+    var fontSize = $('#box-responsive').css('font-size');
+    $('#box-fixedWidth1 .box a').hover(function(event) {  
+        $(this).css({'font-size': '1.4em'});
+        event.stopPropagation();
+    }, function(event) {
+        $(this).css({'font-size': fontSize});
+        event.stopPropagation();
+    });*/
+});
+ </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh">
+    <head>
+        <title>产品图片放大效果</title>
+        <meta charset="utf-8" />
+        <style>
+            @charset "utf-8";
+            /*通用*/
+            body {
+                font: 12px "microsoft yahei", Arial, Helvetica, sans-serif;
+                color:#666;
+                margin:0;
+                padding:0;
+            }
+            ul,li,p,h1,h2,h3,h4,h5,h6,dl,dt,dd {
+                margin:0;
+                padding:0;
+                border:none;
+                list-style:none;
+            }
+            /*通用*/
+
+            /*产品预览*/
+            #preview {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 352px;
+            }
+            #preview>#mediumDiv
+            {
+                width: 350px;
+                height: 350px;
+                border: 1px solid #ddd;
+                margin-bottom: 5px;
+                text-align:center;
+                position: relative;
+            }
+            #preview>#mediumDiv img
+            {
+                vertical-align:middle;
+                width:350px;
+                height:350px;
+            }
+            #preview>#mediumDiv>#mask{
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index:5;
+                width: 175px;
+                height: 175px;
+                background: #ffa;
+                opacity: 0.5;
+                filter:alpha(opacity=50);
+                display:none;
+            }
+            #preview>#mediumDiv>#superMask{
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index:100;
+                width: 350px;
+                height: 350px;
+                opacity: 0;
+                filter:alpha(opacity=0);
+                background-color:#000;
+                cursor: move;
+            }
+            #preview>#largeDiv{
+                position: absolute;
+                width: 400px;
+                height: 400px;
+                background: #fff;
+                border: 1px solid #ddd;
+                top: 0;
+                left: 355px;
+                z-index: 999;
+                display: none;
+            }
+            #preview h1
+            {
+                width: 352px;
+                height: 54px;
+                overflow:hidden;
+                padding: 0px;
+                position:relative;
+            }
+            /*前后移动的按钮*/
+            #preview a.backward,#preview a.forward,#preview a.backward_disabled,#preview a.forward_disabled {
+                width: 17px;
+                height: 54px;
+                background-image: url(images/iconlist_1.png);
+                background-repeat: no-repeat;
+                display:block;
+                z-index:20;
+                position:absolute;
+                top:0px;
+            }
+            #preview a.backward,#preview a.backward_disabled {
+                left:0px;
+            }
+            #preview a.forward,#preview a.forward_disabled {
+                right:0px;
+            }
+            #preview a.backward {
+                background-position: 0px -139px;
+            }
+            #preview a.backward:hover {
+                background-position: -34px -139px;
+            }
+            #preview a.backward_disabled {
+                background-position: -68px -139px;
+            }
+            #preview a.forward {
+                background-position: -17px -139px;
+            }
+            #preview a.forward:hover {
+                background-position: -51px -139px;
+            }
+            #preview a.forward_disabled {
+                background-position: -85px -139px;
+            }
+
+            /*产品的图标列表*/
+            #preview #icon_list {
+                height: 54px;
+                position:absolute;
+                left: 20px;
+                top: 0px;
+            }
+            #preview #icon_list li {
+                width: 62px;
+                text-align: center;
+                float: left;
+            }
+            #preview #icon_list li img {
+                width: 50px;
+                height: 50px;
+                padding: 1px;
+                border: 1px solid #CECFCE;
+            }
+            #preview #icon_list li img:hover {
+                border: 2px solid #e4393c;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="preview">
+            <div id="mediumDiv">
+                <img id="mImg" src="images/products/product-s1-m.jpg"/>
+                <div id="mask"></div>
+                <div id="superMask"></div>
+            </div>
+            <div id="largeDiv"></div>
+            <h1>
+                <a class="backward_disabled"></a>
+                <a class="forward"></a>
+                <ul id="icon_list">
+                        <li><img src="images\products\product-s1.jpg" /></li>
+                        <li><img src="images\products\product-s2.jpg" /></li>
+                        <li><img src="images\products\product-s3.jpg" /></li>
+                        <li><img src="images\products\product-s4.jpg" /></li>
+                        <li><img src="images\products\product-s1.jpg" /></li>
+                        <li><img src="images\products\product-s2.jpg" /></li>
+                        <li><img src="images\products\product-s3.jpg" /></li>
+                        <li><img src="images\products\product-s4.jpg" /></li>
+                </ul>
+            </h1>
+        </div>
+
+        <script src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+        <script>
+            var pPhoto={
+                LIWIDTH:62,//每个小图片li的宽度；
+                moved:0,//记录当前左移的li个数；
+                count:0,//记录li小图片的总数；
+                ul:null,//小图片的父元素；
+                btnL:null,//点左按钮，向右移；
+                btnR:null,//点右按钮，向左移；
+                superMask:null,//放大图div；
+                SUPERWIDTH:350,
+                SUPERHEIGHT:350,
+                MASKWIDTH:175,
+                MASKHEIGHT:175,
+                init:function(){
+                    var me=this;
+                    me.ul=$("#icon_list");
+                    me.btnL=me.ul.parent().find("a")[0];
+                    me.btnR=me.ul.parent().find("a")[1];
+                    me.count=me.ul.find("li").length;
+                    me.superMask=$("#superMask");
+
+                    me.ul.on('mouseover',function(){
+                        me.changeMImg();        //this-->ul;移入小图换大图
+                    });
+                    me.btnL.onclick=me.btnR.onclick=function(){
+                        me.move(this);      //this-->当前按钮；
+                    };
+                    me.superMask.on({
+                        mouseover:function(){
+                            me.showMask()
+                        },
+                        mouseout:function(){
+                            me.showMask()
+                        },
+                        mousemove:function(){
+                            var e=window.event||arguments[0];
+                            me.zoom(e);
+                        }
+                    });
+                },
+                zoom:function(e){
+                    //当鼠标在superMask移动时，同时移动mask，并改变largeDiv的背景位置；
+                    var x=e.offsetX;
+                    var y=e.offsetY;
+                    var mLeft=x-this.MASKWIDTH/2;
+                    var mTop=y-this.MASKHEIGHT/2;
+                    (mTop<0)&&(mTop=0);
+                    (mTop>this.SUPERHEIGHT-this.MASKHEIGHT)&&(mTop=this.SUPERHEIGHT-this.MASKHEIGHT);
+                    (mLeft<0)&&(mLeft=0);
+                    (mLeft>this.SUPERWIDTH-this.MASKWIDTH)&&(mLeft=this.SUPERWIDTH-this.MASKWIDTH);
+                    var mask=$("#mask")[0];
+                    mask.style.left=mLeft+"px";
+                    mask.style.top=mTop+"px";
+                    //根据mTop.mLeft计算largeDiv背景图的位置；大图是中图的2倍；
+                    $("#largeDiv")[0].style.backgroundPosition=-mLeft*2+"px "+-mTop*2+"px";
+                },
+                showMask:function(){
+                    //当鼠标进入superMask时显示mask，
+                    //当鼠标出superMask时隐藏mask，
+                    //同时显示遮罩层和大图片；并给大图片设置背景图片；
+                    var mask=$("#mask");
+                    var dis= mask.css('display')=="none"?"block":"none";
+                    mask.css('display',dis);
+                    var largeDiv=$("#largeDiv");
+                    largeDiv.css('display',dis);//遮罩层和大图片共进退；
+                    if(largeDiv.css('display')=="block"){
+                        var path=$("#mImg")[0].src;
+                        var i=path.lastIndexOf(".");
+                        path=path.slice(0,i-1)+"l"+path.slice(i);
+                        largeDiv[0].style.backgroundImage="url('"+path+"')";
+                    }
+                },
+                move:function(btn){
+                    //this-->pPhoto；
+                    //if按钮不处于禁用状态，才能移动；
+                    if(btn.className.indexOf("_disabled")=="-1"){
+                        //点右向左移
+                        if(btn==this.btnR){//比较的两变量中的对象地址；
+                            this.ul[0].style.left=-(++this.moved*this.LIWIDTH-20)+"px";
+                        }
+                        //点右向左移
+                        if(btn==this.btnL){//比较的两变量中的对象地址；
+                            this.ul[0].style.left=-(--this.moved*this.LIWIDTH-20)+"px";
+                        }
+                        this.btnEnable();
+                    }
+                },
+                btnEnable:function(){//按钮状态变化
+                    if(this.moved==0){						//moved==0时不能再向右
+                        this.btnL.className+="_disabled";
+                    }else if(this.count-this.moved==5){		////this.count-this.moved==5时不能再向左
+                        this.btnR.className+="_disabled";
+                    }else{
+                        this.btnL.className=this.btnL.className.replace("_disabled","");
+                        this.btnR.className=this.btnR.className.replace("_disabled","");
+                    }
+                },
+                changeMImg:function(){//移入小图换大图
+                    //获得事件对象e；
+                    //判断当前目标元素是不是IMG
+                    var e=window.event||arguments[0];
+                    var eSrc=e.srcElement||e.target;
+                    if(eSrc.nodeName=="IMG"){
+                        var path=eSrc.getAttribute("src");
+                        var i=path.lastIndexOf(".");
+                        path=path.slice(0,i)+"-m"+path.slice(i);
+                        $("#mImg")[0].setAttribute("src",path);
+                    }
+
+
+                }
+            };
+            window.onload=function(){
+                pPhoto.init();
+            };
+        </script>
+    </body>
+</html>
