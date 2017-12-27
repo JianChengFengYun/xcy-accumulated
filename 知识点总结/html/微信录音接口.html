@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Document</title>
+    <script src="http://lib.eqh5.com/jquery/2.0.3/jquery.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <style>
+        .recording{background: #0000ff;}
+    </style>
+</head>
+<body>
+<a id="wxp3793468343" class="element comp_wechat_play" ctype="w01" style="width: 180px; height: 40px;display: block; background: #ff0000;margin-bottom: 10px;">播放</a>
+<a id="wxr3793468343" class="element comp_wechat_hear" ctype="w02" data-event="1120612" style="width: 180px; height: 40px;display: block;background: #ff0000">按住 说话</a>
+<a class="element comp_wechat_translate" ctype="w03" style="width: 180px; height: 40px;display: block;background: #00ff00;margin-bottom: 10px;">转成文字</a>
+<div class="txt">转成文字</div>
+<script>
+    $(function(){
+        new Audio().init();
+    });
+    function Audio(){
+        this.voicePanel = null;
+        this.calculateTime = null;//录音时间计算器
+        this.second = null;//录音时间秒
+        this.sounds = [];
+        this.serverId = null;//微信服务器音频ID
+        this.localId = null;//本地音频ID
+        this.playState = 0;//音频播放状态
+    }
+    Audio.prototype = {
+        init: function(){
+            var me = this;
+            $(".comp_wechat_play").on("mousedown touchstart", function(e){
+                event.stopPropagation();
+                e.preventDefault();
+                me.soundPlay();
+            });
+            $(".comp_wechat_translate").on("mousedown touchstart", function(e){
+                event.stopPropagation();
+                e.preventDefault();
+                me.soundTranslate();
+            });
+            $(".comp_wechat_hear").on("mousedown touchstart", function(e){
+                return event.stopPropagation(), e.preventDefault(), me.isWeixin() ? me.soundRecord() : (alert("请在微信中点我！"), !0)
+            }).on("mouseup touchend", function(){
+                me.isWeixin() && me.calculateTime && me.soundStopRecord()
+            });
+        },
+        soundPlay: function(){  //播放语音
+            var me = this;
+            if(me.localId){//本地有id 直接播放
+                this.wxJssdkReady(function(){
+                    wx.playVoice({
+                        localId: me.localId
+                    })
+                })
+            }else{
+                if(this.serverId){//本地没有id,服务器有
+                    this.wxJssdkReady(function(){
+                        wx.downloadVoice({//下载语音
+                            serverId: me.serverId,
+                            success: function(res) {
+                                me.localId = res.localId;
+                                wx.playVoice({
+                                    localId: me.localId
+                                })
+                            },
+                            error: function() {
+
+                            }
+                        })
+                    })
+                }
+            }
+            this.wxJssdkReady(function(){
+                            wx.onVoicePlayEnd({//监听语音播放完毕
+                                success: function(){
+                                    me.playState = 0;
+                                }
+                            });
+            });
+        },
+        soundTranslate: function(){//转成文字
+            var me = this;
+            if(this.localId){
+                this.wxJssdkReady(function(){
+                    alert(222);
+                    wx.translateVoice({
+                        localId: me.localId, // 需要识别的音频的本地Id，由录音相关接口获得
+                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                        success: function(res){
+                            alert(333);
+                            $(".txt").html(res.translateResult);// 语音识别的结果
+                        }
+                    });
+                });
+            }
+        },
+        soundRecord: function(){//开始录音
+            var me = this;
+            this.wxJssdkReady(function(){
+                wx.startRecord({
+                    success: function(){
+                        // me.stopAll();
+                        me.second = 0, me.openPlayState();
+                    }
+                });
+                $(me.context).addClass("recording").text("松开 结束");
+            })
+        },
+        openPlayState: function(){//录音中 计时
+            var me = this;
+            var html = "<div class='voice-panel'><div class='voice-tip'>松开手指 停止录音</div></div>";
+            this.voicePanel = $(html).prependTo($("body"));
+            this.calculateTime = setInterval(function(){
+                me.second++, me.second >= 20 && $(me.voicePanel).text(30 - me.second), 30 == me.second && me.soundStopRecord()
+            }, 1e3);
+        },
+        soundStopRecord: function(){//结束录音
+            var me = this;
+            clearInterval(this.calculateTime);
+            this.calculateTime = null;
+            $(this.context).removeClass("recording").text("按住 说话");
+            $(this.voicePanel).remove();
+            wx.stopRecord({
+                success: function(res){
+                    me.second = 0;
+                    // me.restoreAll();
+                    me.wechatUploadVoice(res.localId)
+                }
+            })
+        },
+        wechatUploadVoice: function(localId){//上传语音
+            var me = this;
+            // l[this.soundKey].soundId = localId;
+            this.localId = localId;
+            wx.uploadVoice({
+                localId: localId,
+                isShowProgressTips: 1,
+                success: function(res){
+                    me.serverId = res.serverId;
+                    // n.weChatUtils.generateUserKey(), n.weChatUtils.saveWxCompData(l[t.soundKey].wxpId, i)
+                }
+            })
+        },
+        stopAll: function(){
+            this.sounds.forEach(function(e) {
+                1 !== e.type && 2 !== e.type || e.audio.paused ? 3 !== e.type || e.media.paused || e.stopPlay() : e.stopPlay()
+            })
+        },
+        wxJssdkReady: function(e){
+            var peopleWXConfig;
+            jQuery.ajax({
+                url: "http://opencity.house.ifeng.com/weixin/config/info",
+                data: {id: 5,_url:window.location.href},
+                dataType: 'jsonp',
+                jsonp: '_cb',
+                success: function(json){
+                    if(json.errno == 0){
+                        peopleWXConfig = json.data;
+                        peopleWXConfig.debug = false;//关闭调试模式
+                        peopleWXConfig.jsApiList = [
+                            'checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', "startRecord", "stopRecord", "onVoiceRecordEnd", "playVoice", "pauseVoice", "stopVoice", "translateVoice", "onVoicePlayEnd", "uploadVoice", "downloadVoice"
+                        ];
+                        wx.config(peopleWXConfig);
+                        wx.ready(function(){
+                            e();
+                        });
+                    }
+                }
+            });
+        },
+        isWeixin: function(){
+            return window.top === window && /MicroMessenger/i.test(navigator.userAgent)
+        },
+        isPc: function(){
+            return !(this.mobilecheck() || this.tabletCheck() && window == window.top)
+        },
+        mobilecheck: function(){
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi/i.test(navigator.userAgent) || screen.width < 500
+        },
+        tabletCheck: function(){
+            return /ipad|android|android 3.0|xoom|sch-i800|playbook|tablet|kindle/i.test(navigator.userAgent)
+        }
+    };
+</script>
+</body>
+</html>
+　　

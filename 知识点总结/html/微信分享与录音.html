@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>title</title>
+    <script src="http://s0.ifengimg.com/static/js/jquery-1.7.2.min_c4de8813.js"></script>
+    <style>
+        .recording{background: #0000ff;}
+    </style>
+</head>
+<body>
+<a class="ting" href="">听</a>
+<a class="element comp_wechat_play" style="width: 180px; height: 40px;display: block; background: #ff0000;margin-bottom: 10px;">播放</a>
+<a class="element comp_wechat_hear" style="width: 180px; height: 40px;display: block;background: #ff0000">按住 说话</a>
+<p id="upt"></p>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    /*分享与录音*/
+//    var site = "3066";
+    var shareID=5;
+    var wxData = {
+        "imgUrl": 'http://s0.ifengimg.com/2017/04/25/share_b47557b8.png',
+        "link": window.location.href,
+        "desc": "达康书记别低头，GDP会掉！叫上小伙伴，快来帮达康书记守住！礼金不断，就等你来！",
+        "title": "守护达康书记的GDP，喊你加入！"
+    };
+
+    var shareWXData,peopleWXConfig;
+    shareWXData = function() {
+        peopleWXConfig.debug = false; //关闭调试模式
+        peopleWXConfig.jsApiList = [    //需要用到的接口
+            'checkJsApi',//分享
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'startRecord',//录音
+            'stopRecord',
+            'onVoiceRecordEnd',
+            'playVoice',
+            'onVoicePlayEnd',
+            'pauseVoice',
+            'stopVoice',
+            'uploadVoice',
+            'downloadVoice'
+        ];
+        wx.config(peopleWXConfig);
+        wx.ready(function() {
+            /* **************分享******************** */
+            wx.onMenuShareTimeline({ //分享到朋友圈
+                title: wxData.title, // 分享标题
+                link: wxData.link, // 分享链接
+                imgUrl: wxData.imgUrl, // 分享图标
+                success: function() {
+                    // 用户确认分享后执行的回调函数
+                    //alert(wxData.link + "|" + wxData.imgUrl);
+                    if(addNames){
+                        addNames();
+                    }
+                },
+                cancel: function() {
+                    // 用户取消分享后执行的回调函数
+                },
+                trigger: function() { // 用戶触发分享事件后的回调函数
+                    this.title = wxData.title;
+                }
+            });
+            wx.onMenuShareAppMessage({ //分享给朋友
+                title: wxData.title, // 分享标题
+                link: wxData.link, // 分享链接
+                imgUrl: wxData.imgUrl, // 分享图标
+                desc: wxData.desc, // 分享描述
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function() {
+                    // 用户确认分享后执行的回调函数
+                    // alert(wxData.link + "|" + wxData.imgUrl);
+                    if(addNames){
+                        addNames();
+                    }
+                },
+                cancel: function() {
+                    // 用户取消分享后执行的回调函数
+                },
+                trigger: function() { // 用戶触发分享事件后的回调函数
+                    this.title = wxData.title;
+                }
+            });
+            wx.onMenuShareQQ({ //分享到QQ
+                title: wxData.title, // 分享标题
+                link: wxData.link, // 分享链接
+                imgUrl: wxData.imgUrl, // 分享图标
+                desc: wxData.desc, // 分享描述
+                success: function() {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    // 用户取消分享后执行的回调函数
+                },
+                trigger: function() { // 用戶触发分享事件后的回调函数
+                    this.title = wxData.title;
+                }
+            });
+            wx.onMenuShareWeibo({ //分享到腾讯微博
+                title: wxData.title, // 分享标题
+                link: wxData.link, // 分享链接
+                imgUrl: wxData.imgUrl, // 分享图标
+                desc: wxData.desc, // 分享描述
+                success: function() {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    // 用户取消分享后执行的回调函数
+                },
+                trigger: function() { // 用戶触发分享事件后的回调函数
+                    this.title = wxData.title;
+                }
+            });
+
+            /* **************录音******************** */
+            new Audio().init();
+        });
+        wx.error(function(res) {
+            alert('验证出错:' + JSON.stringify(res));
+            // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+        });
+    };
+
+    //音频
+    function Audio(){
+        this.voicePanel = null;
+        this.calculateTime = null;//录音时间计算器
+        this.second = null;//录音时间秒
+        this.serverId = null;//微信服务器音频ID
+        this.localId = null;//本地音频ID
+    }
+    Audio.prototype = {
+        init: function(){
+            var me = this;
+            //播放
+            document.querySelector('.comp_wechat_play').addEventListener('touchstart',function(e){
+                event.stopPropagation();
+                e.preventDefault();
+                me.soundPlay();
+            },false);
+
+            //录音
+            document.querySelector('.comp_wechat_hear').addEventListener('touchstart',function(e){
+                return event.stopPropagation(), e.preventDefault(), me.isWeixin() ? me.soundRecord() : (alert("请在微信中点我！"), !0)
+            },false);
+            document.querySelector('.comp_wechat_hear').addEventListener('touchend',function(e){
+                me.isWeixin() && me.calculateTime && me.soundStopRecord()
+            },false);
+        },
+        soundPlay: function(){  //播放语音
+            var me = this;
+            if(me.localId){
+                wx.playVoice({
+                    localId: me.localId
+                })
+            }else{
+                if(this.serverId){
+                    wx.downloadVoice({//下载语音
+                        serverId: me.serverId,
+                        success: function(res) {
+                            me.localId = res.localId;
+                            wx.playVoice({
+                                localId: me.localId
+                            })
+                        },
+                        error: function() {
+
+                        }
+                    })
+                }
+            }
+        },
+        soundRecord: function(){//开始录音
+            var me = this;
+            wx.startRecord({
+                success: function(){
+                    me.second = 0;
+                    me.openPlayState();
+                }
+            });
+            $(me.context).addClass("recording").text("松开 结束");
+
+        },
+        openPlayState: function(){//录音中计时
+            var me = this;
+            var html = "<div class='voice-panel'><div class='voice-tip'>松开手指 停止录音</div></div>";
+            this.voicePanel = $(html).prependTo($("body"));
+            this.calculateTime = setInterval(function(){
+                me.second++, me.second >= 20 && $(me.voicePanel).text(30 - me.second), 30 == me.second && me.soundStopRecord()
+            }, 1e3);
+        },
+        soundStopRecord: function(){//结束录音
+            var me = this;
+            clearInterval(this.calculateTime);
+            this.calculateTime = null;
+            $(this.context).removeClass("recording").text("按住 说话");
+            $(this.voicePanel).remove();
+            wx.stopRecord({
+                success: function(res){
+                    me.second = 0;
+                    me.wechatUploadVoice(res.localId);//上传语音
+                },
+                cancel: function (res) {
+                    alert('已取消');
+                },
+                fail: function (res) {
+                    alert(JSON.stringify(res));
+                }
+            })
+        },
+        wechatUploadVoice: function(localId){//上传语音
+            var me = this;
+            this.localId = localId;
+            wx.uploadVoice({
+                localId: localId,
+                isShowProgressTips: 1,
+                success: function(res){
+                    me.serverId = res.serverId;
+                }
+            })
+        },
+        isWeixin: function(){
+            return window.top === window && /MicroMessenger/i.test(navigator.userAgent)
+        },
+        isPc: function(){
+            return !(this.mobilecheck() || this.tabletCheck() && window == window.top)
+        },
+        mobilecheck: function(){
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi/i.test(navigator.userAgent) || screen.width < 500
+        },
+        tabletCheck: function(){
+            return /ipad|android|android 3.0|xoom|sch-i800|playbook|tablet|kindle/i.test(navigator.userAgent)
+        }
+    };
+    function importJs(options) {
+        options = options || {};
+        if (!options.url) {
+            return;
+        }
+        options.data = options.data || {};
+        options.cbName = options.cbName || "_cb";
+        options.timeout = options.timeout || 0;
+        var arr = [];
+        var fnName = "jsonp_" + Math.random();
+        fnName = fnName.replace(".", "");
+        options.data[options.cbName] = fnName;
+        for (var i in options.data) {
+            arr.push(i + "=" + encodeURIComponent(options.data[i]));
+        }
+        var str = arr.join("&");
+        window[fnName] = function(json) {
+            options.success && options.success(json);
+
+            oHead.removeChild(oS);
+            window[fnName]=null;
+            clearTimeout(timer);
+        }
+        var oS = document.createElement("script");
+        oS.src = options.url + "?" + str;
+        var oHead = document.getElementsByTagName("head")[0];
+        oHead.appendChild(oS);
+
+        if(options.timeout){
+            var timer=setTimeout(function(){
+                window[fnName] = function(){};
+                options.error && options.error();
+            },options.timeout);
+        }
+    }
+    window.onload = function() {
+        //获取微信配置信息
+        /*wx.config({
+             debug: true,
+             appId: 'wx9d9ecaf0a63e9b06',
+             timestamp: parseInt(new Date().getTime()/1000),
+             nonceStr: '942Dqc7NYVJ8Dv2h',
+             signature: '9ff207857bae1b75e19a1e5499a7c2de95d8299d',
+             jsApiList: [   //需要用到的接口
+                 'startRecord',
+                 'stopRecord',
+                 'onVoiceRecordEnd',
+                 'playVoice',
+                 'onVoicePlayEnd',
+                 'pauseVoice',
+                 'stopVoice',
+                 'uploadVoice',
+                 'downloadVoice'
+             ]
+         });*/
+        importJs({
+            url:"http://opencity.house.ifeng.com/weixin/config/info",
+            data:{id:shareID,_url:window.location.href},
+            cbName:"_cb",
+            success:function(json){
+                //console.log(json);
+                if(json.errno == 0){
+                    peopleWXConfig = json.data;
+                    setTimeout(function(){
+                        shareWXData();
+                    },200);
+                }
+
+            }
+        });
+    };
+</script>
+</body>
+</html>
